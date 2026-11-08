@@ -167,7 +167,7 @@ function fillSelect(sel, values, selected){
 function showErr(m){ const b = $("err"); b.textContent = m; b.style.display = m ? "block" : "none"; }
 function fmsg(m, bad){ const f = $("fmsg"); f.textContent = m; f.className = "msg" + (bad ? " bad" : ""); }
 function assigned(r){ return OWNERS.includes(r.responsible) ? r.responsible : UNASSIGNED; }
-function isMgmt(){ return me === MGMT && admin; }
+function isMgmt(){ return me === MGMT; }
 function defaultOwner(){ return isMgmt() ? MGMT : (me === MGMT ? RESP[0] : me); }
 function toWa(phone){
   let d = (phone || "").replace(/\D/g, "");
@@ -199,7 +199,7 @@ fillSelect($("f-resp"), OWNERS, defaultOwner());
 });
 
 function applyRole(){
-  const needLogin = me === MGMT && !admin;
+  const needLogin = false;
   $("loginBox").classList.toggle("hidden", !needLogin);
   $("modeTag").textContent = isMgmt() ? "מצב: הנהלת המכינה" : "מצב: אחראי";
   $("addTitle").textContent = isMgmt() ? "הוספת שבוש (הנהלה)" : "הוספת שבוש";
