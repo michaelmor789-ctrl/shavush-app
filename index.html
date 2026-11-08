@@ -384,17 +384,6 @@ function resizeToDataUrl(file){
     img.src = url;
   });
 }
-$("logoFile").onchange = async e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  $("logoMsg").textContent = "מעלה...";
-  try {
-    const dataUrl = await resizeToDataUrl(file);
-    await dbReq("settings/branding", "PUT", { logo: dataUrl });
-    paintLogo(dataUrl);
-    $("logoMsg").textContent = "הלוגו עודכן ✓";
-  } catch (err) { $("logoMsg").textContent = "העלאת הלוגו נכשלה"; }
-};
 
 // ---- live data: re-read on every change event ----
 async function load(){
