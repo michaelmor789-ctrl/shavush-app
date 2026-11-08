@@ -126,6 +126,7 @@ a{color:var(--olive2);font-weight:600}
       <input id="q" type="search" placeholder="חיפוש לפי שם, טלפון או עיר">
       <select id="filter"><option value="all">כל האחראים</option></select>
       <label class="toggle"><input id="group" type="checkbox"> הצג לפי אחראי</label>
+      <label class="toggle"><input id="bydate" type="checkbox"> הצג לפי תאריך הגעה</label>
     </div>
     <div id="list"></div>
     <p class="muted">הנתונים משותפים לכל מי שיש לו גישה לדף.</p>
@@ -328,6 +329,20 @@ function render(){
     e.textContent = rows.length ? "אין תוצאות לחיפוש או לסינון" : "אין שבושים להצגה עדיין";
     out.appendChild(e); return;
   }
+  if ($("bydate").checked) {
+    const dates = [...new Set(list.map(r => r.arrival || ""))].sort((a, b) => a === "" ? 1 : b === "" ? -1 : a.localeCompare(b));
+    dates.forEach(d => {
+      const items = list.filter(r => (r.arrival || "") === d);
+      const g = document.createElement("div"); g.className = "group";
+      const h = document.createElement("h3");
+      const t1 = document.createElement("span"); t1.textContent = d ? fmtDate(d) : "ללא תאריך הגעה";
+      const t2 = document.createElement("span"); t2.className = "muted"; t2.textContent = items.length;
+      h.append(t1, t2); g.appendChild(h);
+      items.forEach(r => g.appendChild(card(r)));
+      out.appendChild(g);
+    });
+    return;
+  }
   if (!grouped) { list.forEach(r => out.appendChild(card(r))); return; }
 
   [...OWNERS, UNASSIGNED].forEach(v => {
@@ -345,6 +360,7 @@ function render(){
 $("q").oninput = render;
 $("filter").onchange = render;
 $("group").onchange = render;
+$("bydate").onchange = render;
 
 // ---- logo (shared, uploaded by management) ----
 function paintLogo(src){
