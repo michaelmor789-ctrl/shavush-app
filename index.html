@@ -101,11 +101,6 @@ a{color:var(--olive2);font-weight:600}
       <button id="loginBtn" type="button">כניסה לצוות</button>
       <span id="loginMsg" class="muted"></span>
     </div>
-    <div id="brandTools" class="brand-tools hidden">
-      <label class="muted" style="margin:0;font-weight:600">לוגו המכינה:</label>
-      <input id="logoFile" type="file" accept="image/*">
-      <span id="logoMsg" class="muted"></span>
-    </div>
   </section>
 
   <section>
@@ -203,7 +198,6 @@ function applyRole(){
   $("loginBox").classList.toggle("hidden", !needLogin);
   $("modeTag").textContent = isMgmt() ? "מצב: הנהלת המכינה" : "מצב: אחראי";
   $("addTitle").textContent = isMgmt() ? "הוספת שבוש (הנהלה)" : "הוספת שבוש";
-  $("brandTools").classList.toggle("hidden", !isMgmt());
   $("f-resp").value = defaultOwner();
 }
 $("me").onchange = () => {
